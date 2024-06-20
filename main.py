@@ -5,16 +5,18 @@ import datetime
 import psycopg2
 import config
 import logging
+import os
 
+local_path = os.path.dirname(os.path.realpath(__file__))
 now = datetime.datetime.now()
 date_and_time = now.strftime('%d_%m_%Y__%H_%M_%S')
-logfile = 'presence_reader_{0}.log'.format(date_and_time)
+logfile = local_path + '/presence_reader_{0}.log'.format(date_and_time)
 logging.basicConfig(filename=logfile, filemode='w', format='%(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
 
 def init_nat_to_munic_id():
     data = {}
-    with open('main_municipalitiesnatcode.csv') as csv_file:
+    with open(local_path + '/main_municipalitiesnatcode.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         next(csv_reader, None)  # skip the headers
         for row in csv_reader:
